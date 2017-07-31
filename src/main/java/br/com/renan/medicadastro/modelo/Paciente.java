@@ -3,6 +3,14 @@ package br.com.renan.medicadastro.modelo;
 public class Paciente {
 	private long id;
 	private String nome;
+	private String sexo;
+	
+	public String getSexo() {
+		return sexo;
+	}
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
 	private short idade;
 	
 	public long getId() {
