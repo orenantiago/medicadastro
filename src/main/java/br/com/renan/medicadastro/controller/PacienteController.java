@@ -13,6 +13,12 @@ public class PacienteController {
 	
 	@RequestMapping("/adicionaPaciente")
 	public String addPaciente() {
-		return "Paciente adicionado";
+		//colocar os metodos de adicionar paciente aqui
+		return "forward:listaPacientes";
+	}
+	
+	@RequestMapping("/listaPacientes")
+	public String list( ) {
+		return "/paciente/lista";
 	}
 }
