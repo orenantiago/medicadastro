@@ -10,4 +10,9 @@ public class PacienteController {
 	public String getFormularioPaciente() {
 		return "/paciente/formulario-paciente";
 	}
+	
+	@RequestMapping("/adicionaPaciente")
+	public String addPaciente() {
+		return "Paciente adicionado";
+	}
 }
