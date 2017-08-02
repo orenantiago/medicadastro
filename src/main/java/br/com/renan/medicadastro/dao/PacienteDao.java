@@ -2,7 +2,10 @@ package br.com.renan.medicadastro.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,11 +35,47 @@ public class PacienteDao {
 			stmt.setString(3, paciente.getSexo());
 			
 			stmt.execute();
+			stmt.close();
 			
-			connection.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
+	public List<Paciente> lista () throws SQLException {
+		List<Paciente> lista = new ArrayList<Paciente>();
+		PreparedStatement stmt = this.connection.prepareStatement("select * from paciente");
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Paciente paciente = new Paciente();
+			paciente.setId(rs.getInt("id"));
+			paciente.setNome(rs.getString("nome"));
+			paciente.setIdade(rs.getInt("idade"));
+			paciente.setSexo(rs.getString("sexo"));
+			
+			lista.add(paciente);
+		}
+		
+		stmt.close();
+		rs.close();
+		return lista;
+	}
+	
+	public Paciente getPaciente(long id) throws SQLException {
+		PreparedStatement stmt = this.connection.prepareStatement("select * from paciente where id=?");
+		stmt.setString(1, String.valueOf(id));
+		ResultSet rs = stmt.executeQuery();
+		
+		Paciente paciente = new Paciente();
+		paciente.setId(rs.getLong("id"));
+		paciente.setNome(rs.getString("nome"));
+		paciente.setIdade(rs.getInt("idade"));
+		paciente.setSexo(rs.getString("sexo"));
+		
+		stmt.close();
+		rs.close();
+		
+		return paciente;
+		
+	}
 }

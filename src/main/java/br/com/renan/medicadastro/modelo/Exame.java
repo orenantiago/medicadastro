@@ -7,7 +7,14 @@ public class Exame {
 	private String nome;
 	private String descricao;
 	private Calendar data;
+	private Paciente paciente;
 	
+	public Paciente getPaciente() {
+		return paciente;
+	}
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
+	}
 	public long getId() {
 		return id;
 	}
