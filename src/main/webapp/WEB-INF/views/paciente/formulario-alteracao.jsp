@@ -1,9 +1,10 @@
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
 	<title>Alterar Paciente</title>
 </head>
 <body>
+	<c:import url="../cabecalho.jsp" />
 	<h3>Alterar Paciente</h3>
 	<form action="/alteraPaciente" method="post">
 		Nome do paciente: <br /> 

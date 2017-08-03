@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <body>
-  
+  <c:import url="../cabecalho.jsp" />
   <a href="/cadastroExame">Adicionar outro exame</a> 
 
   <br /> <br />        
