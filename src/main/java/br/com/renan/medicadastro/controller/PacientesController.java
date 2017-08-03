@@ -42,4 +42,10 @@ public class PacientesController {
 		model.addAttribute("pacientes", pacientes);
 		return "/paciente/lista";
 	}
+	
+	@RequestMapping("/removePaciente")
+	public String remove(Paciente paciente) throws SQLException {
+		dao.remove(paciente);
+		return "forward:listaPacientes";
+	}
 }

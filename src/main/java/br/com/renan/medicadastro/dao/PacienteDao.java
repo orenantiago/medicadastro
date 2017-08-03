@@ -60,6 +60,7 @@ public class PacienteDao {
 		return lista;
 	}
 
+	
 	public Paciente getPaciente(long id) throws SQLException {
 		PreparedStatement stmt = this.connection.prepareStatement("select * from paciente where id=?");
 		stmt.setString(1, String.valueOf(id));
@@ -77,5 +78,14 @@ public class PacienteDao {
 		}
 		return paciente;
 
+	}
+	
+	public void remove(Paciente paciente) throws SQLException {
+		long id = paciente.getId();
+		System.out.println("iasdiahsdiashdisdhiahsjcia" + String.valueOf(id));
+		PreparedStatement stmt = this.connection.prepareStatement("delete from paciente where id=" 
+				+ String.valueOf(id));
+		stmt.execute();
+		stmt.close();
 	}
 }

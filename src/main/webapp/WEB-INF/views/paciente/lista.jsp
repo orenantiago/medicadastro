@@ -20,6 +20,7 @@
       <td>${paciente.nome}</td>
       <td>${paciente.idade}</td>
       <td>${paciente.sexo}</td>
+      <td><a href="/removePaciente?id=${paciente.id}">Remover</a></td>
     </tr>
   </c:forEach>
   </table>
