@@ -70,7 +70,6 @@ public class PacienteDao {
 		if (rs.next()) {
 			paciente.setId(rs.getLong("id"));
 			paciente.setNome(rs.getString("nome"));
-			System.out.println(rs.getString("nome"));
 			paciente.setIdade(rs.getInt("idade"));
 			paciente.setSexo(rs.getString("sexo"));
 			stmt.close();
@@ -82,10 +81,20 @@ public class PacienteDao {
 	
 	public void remove(Paciente paciente) throws SQLException {
 		long id = paciente.getId();
-		System.out.println("iasdiahsdiashdisdhiahsjcia" + String.valueOf(id));
 		PreparedStatement stmt = this.connection.prepareStatement("delete from paciente where id=" 
 				+ String.valueOf(id));
 		stmt.execute();
 		stmt.close();
+	}
+	
+	public void altera(Paciente paciente) throws SQLException {
+		String sql = "update paciente set nome=?, idade=?, sexo=? where id=?";
+		PreparedStatement stmt = this.connection.prepareStatement(sql);
+		stmt.setString(1, paciente.getNome());
+		stmt.setInt(2, paciente.getIdade());
+		stmt.setString(3, paciente.getSexo());
+		stmt.setLong(4, paciente.getId());
+		
+		stmt.execute();
 	}
 }

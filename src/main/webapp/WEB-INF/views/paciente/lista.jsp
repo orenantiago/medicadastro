@@ -21,6 +21,7 @@
       <td>${paciente.idade}</td>
       <td>${paciente.sexo}</td>
       <td><a href="/removePaciente?id=${paciente.id}">Remover</a></td>
+      <td><a href="/mostraPaciente?id=${paciente.id}">Alterar</a></td>
     </tr>
   </c:forEach>
   </table>
