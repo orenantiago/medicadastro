@@ -20,20 +20,20 @@ import br.com.renan.medicadastro.modelo.Paciente;
 public class ExameDao {
 	private Connection connection;
 
-	@Autowired
 	public ExameDao() throws SQLException {
 		this.connection = new ConnectionFactory().getConnection();
 		//this.connection = dataSource.getConnection();
 	}
 	
 	public void adiciona(Exame exame) {
-		String sql = "insert into exame(idPessoa, nome, descricao, data) "
+		String sql = "insert into exame(idPaciente, nome, descricao, data) "
 				+ "values(?,?,?,?,?)";
 				
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			
-			stmt.setLong(1, exame.getPaciente().getId());
+			//stmt.setLong(1, exame.getPaciente().getId());
+			stmt.setLong(1, 1);
 			stmt.setString(2, exame.getNome());
 			stmt.setString(3, exame.getDescricao());
 			stmt.setDate(4,new Date(exame.getData()
@@ -60,13 +60,41 @@ public class ExameDao {
 			Calendar data = Calendar.getInstance();
 			data.setTime(rs.getDate("data"));
 			exame.setData(data);
-			exame.setPaciente(pacienteDao.getPaciente(rs.getInt("idPaciente")));
+			exame.setPaciente(pacienteDao.getPaciente(rs.getLong("idPaciente")));
 			lista.add(exame);
 		}
-		
 		stmt.close();
 		rs.close();
 		return lista;
+	}
+	
+	public Exame getExame(long id) throws SQLException {
+		Exame exame = new Exame();
+		PreparedStatement stmt = this.connection.prepareStatement("select * from exame where id=?");
+		stmt.setLong(1, id);
+		ResultSet rs = stmt.executeQuery();
+		
+		if (rs.next()) {
+			exame.setId(rs.getLong("id"));
+			Calendar data = Calendar.getInstance();
+			data.setTime(rs.getDate("data"));
+			exame.setData(data);
+			exame.setDescricao(rs.getString("descricao"));
+			
+			Paciente paciente = new PacienteDao().getPaciente(rs.getLong("idPaciente"));
+			
+			exame.setPaciente(paciente);
+			stmt.close();
+			rs.close();
+		}
+		return exame;
+	}
+
+	public void remove(Exame exame) throws SQLException {
+		PreparedStatement stmt = this.connection.prepareStatement("delete from exame where id=" 
+				+ String.valueOf(exame.getId()));
+		stmt.execute();
+		stmt.close();
 	}
 
 }

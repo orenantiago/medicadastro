@@ -15,14 +15,16 @@
     <th>Data</th>
     <th>Paciente</th>
   </tr>
-  <c:forEach items="${exames}" var="exames">
+  <c:forEach items="${exames}" var="exame">
     <tr>
-      <td>${exames.id}</td>
-      <td>${exames.nome}</td>
-      <td>${exames.descricao}</td>
-      <td><fmt:formatDate value="${exames.data.time}"
+      <td>${exame.id}</td>
+      <td>${exame.nome}</td>
+      <td>${exame.descricao}</td>
+      <td><fmt:formatDate value="${exame.data.time}"
 						pattern="dd/MM/yyyy" /></td>
-      <td>${exames.paciente.getnome}</td>
+      <td>${exame.paciente.nome}</td>
+      <td><a href="/removeExame?id=${exame.id}">Remover</a></td>
+      <td><a href="/mostraExame?id=${exame.id}">Alterar</a></td>
     </tr>
   </c:forEach>
   </table>

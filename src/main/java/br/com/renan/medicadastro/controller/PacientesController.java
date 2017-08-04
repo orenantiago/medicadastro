@@ -48,4 +48,16 @@ public class PacientesController {
 		dao.remove(paciente);
 		return "forward:listaPacientes";
 	}
+	
+	@RequestMapping("/mostraPaciente")
+	public String mostraPaciente(long id, Model model) throws SQLException {
+		model.addAttribute("paciente", dao.getPaciente(id));
+		return "/paciente/formulario-alteracao";
+	}
+	
+	@RequestMapping("/alteraPaciente")
+	public String altera(Paciente paciente) throws SQLException {
+		dao.altera(paciente);
+		return "forward:listaPacientes";
+	}
 }

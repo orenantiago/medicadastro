@@ -12,7 +12,7 @@
 	<a href="/cadastroPaciente" style="padding-left: 5px">Cadastrar novo paciente</a>
 	<a href="/listaPacientes" style="padding-left: 5px">Listar pacientes</a>
 	<hr>
-	<a href="#">Cadastrar novo Exame</a>
-	<a href="#">Listar exames</a>
+	<a href="/cadastroExame">Cadastrar novo Exame</a>
+	<a href="/listaExames">Listar exames</a>
 </body>
 </html>
