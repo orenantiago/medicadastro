@@ -27,7 +27,7 @@ public class ExameDao {
 	
 	public void adiciona(Exame exame) {
 		String sql = "insert into exame(idPaciente, nome, descricao, data) "
-				+ "values(?,?,?,?,?)";
+				+ "values(?,?,?,?)";
 				
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
@@ -95,6 +95,20 @@ public class ExameDao {
 				+ String.valueOf(exame.getId()));
 		stmt.execute();
 		stmt.close();
+	}
+	
+	public void altera(Exame exame) throws SQLException {
+		String sql = "update exame set nome=?, descricao=?, data=?, idPaciente=? where id=?";
+		PreparedStatement stmt = this.connection.prepareStatement(sql);
+		stmt.setString(1, exame.getNome());
+		stmt.setString(2, exame.getDescricao());
+		stmt.setDate(3,new Date(exame.getData()
+				.getTimeInMillis()));
+		stmt.setLong(4, exame.getPaciente().getId());
+		stmt.setLong(5, exame.getId());
+		
+		stmt.execute();
+		
 	}
 
 }
