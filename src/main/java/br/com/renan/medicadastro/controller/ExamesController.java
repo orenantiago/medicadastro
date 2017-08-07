@@ -7,34 +7,33 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.com.renan.medicadastro.dao.ExameDao;
-import br.com.renan.medicadastro.dao.PacienteDao;
+import br.com.renan.medicadastro.dao.ExameRepository;
+import br.com.renan.medicadastro.dao.PacienteRepository;
 import br.com.renan.medicadastro.modelo.Exame;
 import br.com.renan.medicadastro.modelo.Paciente;
 
 @Controller
 public class ExamesController {
-	private ExameDao dao;
-	private PacienteDao pacienteDao;
-
 	@Autowired
-	public ExamesController(ExameDao dao, PacienteDao pacienteDao) {
-		this.dao = dao;
-		this.pacienteDao = pacienteDao;
-	}
+	private ExameRepository exameRepository;
+	
+	@Autowired
+	private PacienteRepository pacienteRepository;
+
+//	public ExamesController(ExameDao dao, PacienteDao pacienteDao) {
+//		this.dao = dao;
+//		this.pacienteDao = pacienteDao;
+//	}
 
 	@RequestMapping("/cadastroExame")
 	String getFormularioExame(Model model) throws SQLException {
-		List<Paciente> pacientes = pacienteDao.lista();
+		List<Paciente> pacientes = pacienteRepository.findAll();
 		model.addAttribute("pacientes", pacientes);
 		return "/exame/formulario";
 	}
@@ -52,19 +51,19 @@ public class ExamesController {
 		exame.setData(c);
 
 		long idPaciente = Long.parseLong(req.getParameter("idPaciente"));
-		Paciente paciente = pacienteDao.getPaciente(idPaciente);
+		Paciente paciente = pacienteRepository.findOne(idPaciente);
 
 		exame.setPaciente(paciente);
 		
-		dao.adiciona(exame);
+		exameRepository.save(exame);
 		return "forward:/listaExames";
 	}
 
 	@RequestMapping("alteraExame")
 	String altera(HttpServletRequest req) throws ParseException, SQLException {
-		Exame exame = new Exame();
+		long id = Long.parseLong(req.getParameter("id"));
+		Exame exame = exameRepository.findOne(id);
 
-		exame.setId(Long.parseLong(req.getParameter("id")));
 		exame.setNome(req.getParameter("nome"));
 		exame.setDescricao(req.getParameter("descricao"));
 
@@ -74,25 +73,25 @@ public class ExamesController {
 		exame.setData(c);
 
 		long idPaciente = Long.parseLong(req.getParameter("idPaciente"));
-		Paciente paciente = pacienteDao.getPaciente(idPaciente);
+		Paciente paciente = pacienteRepository.findOne(idPaciente);
 
 		exame.setPaciente(paciente);
-		dao.altera(exame);
+		exameRepository.save(exame);
 		return "forward:listaExames";
 		
 	}
 
 	@RequestMapping("/listaExames")
 	String list(Model model) throws SQLException {
-		List<Exame> exames = dao.lista();
+		List<Exame> exames = exameRepository.findAll();
 		model.addAttribute("exames", exames);
 		return "/exame/lista";
 	}
 
 	@RequestMapping("/mostraExame")
 	String mostraExame(long id, Model model) throws SQLException {
-		Exame exame = dao.getExame(id);
-		List<Paciente> pacientes = pacienteDao.lista();
+		Exame exame = exameRepository.findOne(id);
+		List<Paciente> pacientes = pacienteRepository.findAll();
 		model.addAttribute("exame", exame);
 		model.addAttribute("pacientes", pacientes);
 		return "/exame/formulario-alteracao";
@@ -100,7 +99,7 @@ public class ExamesController {
 
 	@RequestMapping("/removeExame")
 	String remove(Exame exame) throws SQLException {
-		dao.remove(exame);
+		exameRepository.delete(exame);
 		return "forward:/listaExames";
 	}
 

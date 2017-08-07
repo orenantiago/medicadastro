@@ -2,12 +2,25 @@ package br.com.renan.medicadastro.modelo;
 
 import java.util.Calendar;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Exame {
+	@Id
+	@GeneratedValue
 	private long id;
 	private String nome;
 	private String descricao;
 	private Calendar data;
+	@OneToOne
 	private Paciente paciente;
+	
+	public Exame() {
+		
+	}
 	
 	public Paciente getPaciente() {
 		return paciente;
