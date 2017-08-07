@@ -1,6 +1,13 @@
 package br.com.renan.medicadastro.modelo;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Paciente {
+	@Id
+	@GeneratedValue
 	private long id;
 	private String nome;
 	private String sexo;
