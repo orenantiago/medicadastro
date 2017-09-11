@@ -9,16 +9,19 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.renan.medicadastro.modelo.Exame;
 import br.com.renan.medicadastro.modelo.Paciente;
 import br.com.renan.medicadastro.repository.ExameRepository;
 import br.com.renan.medicadastro.repository.PacienteRepository;
 
-@Controller
+@RestController
 public class ExamesController {
 	@Autowired
 	private ExameRepository exameRepository;
@@ -26,76 +29,38 @@ public class ExamesController {
 	@Autowired
 	private PacienteRepository pacienteRepository;
 
-	@RequestMapping("/cadastroExame")
-	String getFormularioExame(Model model) throws SQLException {
-		List<Paciente> pacientes = pacienteRepository.findAll();
-		model.addAttribute("pacientes", pacientes);
-		return "/exame/formulario";
-	}
-
-	@RequestMapping(value = "/adicionaExame")
-	String addExame(HttpServletRequest req) throws ParseException, SQLException {
-		Exame exame = new Exame();
-
-		exame.setNome(req.getParameter("nome"));
-		exame.setDescricao(req.getParameter("descricao"));
-
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar c = Calendar.getInstance();
-		c.setTime(sdf.parse(req.getParameter("data")));
-		exame.setData(c);
-
-		long idPaciente = Long.parseLong(req.getParameter("idPaciente"));
-		Paciente paciente = pacienteRepository.findOne(idPaciente);
-
-		exame.setPaciente(paciente);
-		
+	@RequestMapping(value = "/exames", method=RequestMethod.POST)
+	public void addExame(@RequestBody Exame exame) throws ParseException, SQLException {
 		exameRepository.save(exame);
-		return "forward:/listaExames";
 	}
 
-	@RequestMapping("alteraExame")
-	String altera(HttpServletRequest req) throws ParseException, SQLException {
-		long id = Long.parseLong(req.getParameter("id"));
-		Exame exame = exameRepository.findOne(id);
-
-		exame.setNome(req.getParameter("nome"));
-		exame.setDescricao(req.getParameter("descricao"));
-
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar c = Calendar.getInstance();
-		c.setTime(sdf.parse(req.getParameter("data")));
-		exame.setData(c);
-
-		long idPaciente = Long.parseLong(req.getParameter("idPaciente"));
-		Paciente paciente = pacienteRepository.findOne(idPaciente);
-
-		exame.setPaciente(paciente);
-		exameRepository.save(exame);
-		return "forward:listaExames";
-		
+	@RequestMapping(value="/exames/{id}", method=RequestMethod.PUT)
+	public void altera(@RequestBody Exame exame, @PathVariable String id) throws ParseException, SQLException {
+		Exame oldExame = exameRepository.findOne(Long.parseLong(id));
+		oldExame.setPaciente(exame.getPaciente());
+		oldExame.setData(exame.getData());
+		oldExame.setDescricao(exame.getDescricao());
+		oldExame.setNome(exame.getNome());
+		exameRepository.save(oldExame);
 	}
 
-	@RequestMapping("/listaExames")
-	String list(Model model) throws SQLException {
+	@RequestMapping("/exames")
+	List<Exame> list() throws SQLException {
 		List<Exame> exames = exameRepository.findAll();
-		model.addAttribute("exames", exames);
-		return "/exame/lista";
+		//model.addAttribute("exames", exames);
+		return exames;
 	}
 
-	@RequestMapping("/mostraExame")
-	String mostraExame(long id, Model model) throws SQLException {
-		Exame exame = exameRepository.findOne(id);
+	@RequestMapping("/exames/{id}")
+	public Exame mostraExame(@PathVariable String id) throws SQLException {
+		Exame exame = exameRepository.findOne(Long.parseLong(id));
 		List<Paciente> pacientes = pacienteRepository.findAll();
-		model.addAttribute("exame", exame);
-		model.addAttribute("pacientes", pacientes);
-		return "/exame/formulario-alteracao";
+		return exame;
 	}
 
-	@RequestMapping("/removeExame")
-	String remove(Exame exame) throws SQLException {
-		exameRepository.delete(exame);
-		return "forward:/listaExames";
+	@RequestMapping(value="/exames/{id}", method=RequestMethod.DELETE)
+	public void remove(@PathVariable String id) throws SQLException {
+		exameRepository.delete(Long.parseLong(id));
 	}
 
 }
