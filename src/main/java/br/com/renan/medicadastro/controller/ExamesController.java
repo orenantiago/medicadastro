@@ -25,16 +25,16 @@ import br.com.renan.medicadastro.repository.PacienteRepository;
 public class ExamesController {
 	@Autowired
 	private ExameRepository exameRepository;
-	
+
 	@Autowired
 	private PacienteRepository pacienteRepository;
 
-	@RequestMapping(value = "/exames", method=RequestMethod.POST)
+	@RequestMapping(value = "/exames", method = RequestMethod.POST)
 	public void addExame(@RequestBody Exame exame) throws ParseException, SQLException {
 		exameRepository.save(exame);
 	}
 
-	@RequestMapping(value="/exames/{id}", method=RequestMethod.PUT)
+	@RequestMapping(value = "/exames/{id}", method = RequestMethod.PUT)
 	public void altera(@RequestBody Exame exame, @PathVariable String id) throws ParseException, SQLException {
 		Exame oldExame = exameRepository.findOne(Long.parseLong(id));
 		oldExame.setPaciente(exame.getPaciente());
@@ -44,21 +44,20 @@ public class ExamesController {
 		exameRepository.save(oldExame);
 	}
 
-	@RequestMapping("/exames")
+	@RequestMapping(value = "/exames", method = RequestMethod.GET)
 	List<Exame> list() throws SQLException {
 		List<Exame> exames = exameRepository.findAll();
-		//model.addAttribute("exames", exames);
 		return exames;
 	}
 
-	@RequestMapping("/exames/{id}")
+	@RequestMapping(value = "/exames/{id}", method = RequestMethod.GET)
 	public Exame mostraExame(@PathVariable String id) throws SQLException {
 		Exame exame = exameRepository.findOne(Long.parseLong(id));
 		List<Paciente> pacientes = pacienteRepository.findAll();
 		return exame;
 	}
 
-	@RequestMapping(value="/exames/{id}", method=RequestMethod.DELETE)
+	@RequestMapping(value = "/exames/{id}", method = RequestMethod.DELETE)
 	public void remove(@PathVariable String id) throws SQLException {
 		exameRepository.delete(Long.parseLong(id));
 	}

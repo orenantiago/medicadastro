@@ -16,32 +16,32 @@ import br.com.renan.medicadastro.repository.PacienteRepository;
 
 @RestController
 public class PacientesController {
-	
+
 	@Autowired
 	private PacienteRepository pacienteRepository;
-		
-	@RequestMapping(value="/pacientes", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/pacientes", method = RequestMethod.POST)
 	public void addPaciente(@RequestBody Paciente paciente) {
 		pacienteRepository.save(paciente);
 	}
-	
-	@RequestMapping("/pacientes")
+
+	@RequestMapping(value = "/pacientes", method = RequestMethod.GET)
 	public List<Paciente> list(Model model) throws SQLException {
 		return pacienteRepository.findAll();
 	}
-	
-	@RequestMapping(value = "/pacientes/{id}", method=RequestMethod.DELETE)
+
+	@RequestMapping(value = "/pacientes/{id}", method = RequestMethod.DELETE)
 	public void remove(@PathVariable String id) throws SQLException {
 		Paciente paciente = pacienteRepository.findOne(Long.parseLong(id));
 		pacienteRepository.delete(paciente);
 	}
-	
-	@RequestMapping("/pacientes/{id}")
+
+	@RequestMapping(value = "/pacientes/{id}", method = RequestMethod.GET)
 	public Paciente mostraPaciente(@PathVariable String id) throws SQLException {
 		return pacienteRepository.findOne(Long.parseLong(id));
 	}
-	
-	@RequestMapping(value = "/pacientes/{id}", method=RequestMethod.PUT)
+
+	@RequestMapping(value = "/pacientes/{id}", method = RequestMethod.PUT)
 	public void altera(@RequestBody Paciente paciente, @PathVariable String id) throws SQLException {
 		Paciente oldPaciente = pacienteRepository.findOne(Long.parseLong(id));
 		oldPaciente.setNome(paciente.getNome());
