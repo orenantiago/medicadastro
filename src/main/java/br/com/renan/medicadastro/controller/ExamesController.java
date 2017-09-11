@@ -13,10 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.com.renan.medicadastro.dao.ExameRepository;
-import br.com.renan.medicadastro.dao.PacienteRepository;
 import br.com.renan.medicadastro.modelo.Exame;
 import br.com.renan.medicadastro.modelo.Paciente;
+import br.com.renan.medicadastro.repository.ExameRepository;
+import br.com.renan.medicadastro.repository.PacienteRepository;
 
 @Controller
 public class ExamesController {
@@ -25,11 +25,6 @@ public class ExamesController {
 	
 	@Autowired
 	private PacienteRepository pacienteRepository;
-
-//	public ExamesController(ExameDao dao, PacienteDao pacienteDao) {
-//		this.dao = dao;
-//		this.pacienteDao = pacienteDao;
-//	}
 
 	@RequestMapping("/cadastroExame")
 	String getFormularioExame(Model model) throws SQLException {

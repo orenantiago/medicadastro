@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.com.renan.medicadastro.dao.PacienteRepository;
 import br.com.renan.medicadastro.modelo.Paciente;
+import br.com.renan.medicadastro.repository.PacienteRepository;
 
 @Controller
 public class PacientesController {
