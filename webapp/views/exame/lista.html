@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app='exams'>
+<head>
+	<title>Lista Exames</title>
+	<script type="text/javascript" src="../../js/angular.js"></script>
+	<script type="text/javascript" src="../../js/app.js"></script>
+</head>
+<body >
+  <a href="../index.html"><h1>MediCadastro</h1></a>
+  <hr />
+
+  <table ng-controller = 'listExamsController as form'>
+  <tr>
+    <th>Id</th>
+    <th>Nome</th>
+    <th>Descricao</th>
+    <th>Data</th>
+    <th>Paciente</th>
+  </tr>
+    <tr ng-repeat='exame in form.exames'>
+      <td>{{exame.id}}</td>
+      <td>{{exame.nome}}</td>
+      <td>{{exame.descricao}}</td>
+      <td>{{exame.data}}</td>
+      <td>{{exame.paciente.nome}}</td>
+      //<!-- TODO:  -->
+      <!--       <td><a href="/removeExame?id=${exame.id}">Remover</a></td>
+            <td><a href="/mostraExame?id=${exame.id}">Alterar</a></td> -->
+    </tr>
+  </table>
+</body>
+</html>

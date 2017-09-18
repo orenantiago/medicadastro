@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app='pacients'>
+<head>
+	<title>Lista Pacientes</title>
+	<script type="text/javascript" src="../../js/angular.js"></script>
+	<script type="text/javascript" src="../../js/app.js"></script>
+</head>
+<body>
+  <a href="../index.html"><h1>MediCadastro</h1></a>
+  <hr />
+  <a href="/cadastroPaciente">Adicionar outro paciente</a>
+
+  <br /> <br />
+
+  <table ng-controller="listPacientsController as form">
+  <tr>
+    <th>Nome</th>
+    <th>Idade</th>
+    <th>Sexo</th>
+  </tr>
+    <tr ng-repeat="paciente in form.pacientes">
+      <!-- <td>{paciente.id}</td> -->
+      <td>{{paciente.nome}}</td>
+      <td>{{paciente.idade}}</td>
+      <td>{{paciente.sexo}}</td>
+      <td>{{paciente.id}}</td>
+      <td><button ng-controller ="">Remover</button></td>
+      <td><a href="/mostraPaciente?id=${paciente.id}">Alterar</a></td>
+    </tr>
+  </table>
+</body>
+</html>

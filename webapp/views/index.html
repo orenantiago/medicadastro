@@ -1,0 +1,42 @@
+<html ng-app="app">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>home</title>
+	<script src="../js/angular.js"></script>
+	<script src="../js/app.js"></script>
+</head>
+	<body>
+		<div ng-controller="meu.controller"></div>
+		<a href="index.html"><h1>MediCadastro</h1></a>
+		<hr />
+		<a href="/cadastroPaciente" style="padding-left: 5px">Cadastrar novo paciente</a>
+		<!-- <button ng-controller ="">Cadastrar novo paciente</button> -->
+		<a href="paciente/lista.html" style="padding-left: 5px">Listar pacientes</a>
+		<!-- <button ng-model="listPacients">Listar pacientes</button> -->
+		<hr>
+		<a href="/cadastroExame">Cadastrar novo Exame</a>
+		<!-- <button ng-controller ="">Cadastrar novo exame</button> -->
+		<a href="exame/lista.html">Listar exames</a>
+		<!-- <button ng-controller ="">Listar exames</button> -->
+		<hr>
+		<div ng-hide="listPacients">
+			<table ng-controller="listPacientsController as form">
+			<tr>
+				<th>Id</th>
+				<th>Nome</th>
+				<th>Idade</th>
+				<th>Sexo</th>
+			</tr>
+				<tr ng-repeat="paciente in form.pacientes">
+					<!-- <td>{paciente.id}</td> -->
+					<td>{{paciente.nome}}</td>
+					<td>{{paciente.idade}}</td>
+					<td>{{paciente.sexo}}</td>
+					<td>{{paciente.id}}</td>
+					<td><button ng-controller ="">Remover</button></td>
+					<td><a href="/mostraPaciente?id=${paciente.id}">Alterar</a></td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>
