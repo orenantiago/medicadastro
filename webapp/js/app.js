@@ -6,12 +6,6 @@ angular
 	'pacients'
 ]);
 
-angular.module('app').controller('meu.controller',[
-        '$scope'
-        ,'$http'
-        ,function meuController($scope, $http){ console.info("Olá mundo") }
-        ] );
-
 angular
     .module('exams', [])
     .controller('examsController', examsController);
@@ -57,12 +51,9 @@ angular
 		};
 
 		$scope.delete = function(id) {
-			//$scope.paciente = null;
-			//var id =
 			console.log(id)
 			$http.delete('http://localhost:8080/pacientes/' + id).then(function(response) {
 				console.log(response)
 			})
-			//delete $scope.paciente
 		};
 	});
