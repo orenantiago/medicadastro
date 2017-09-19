@@ -14,93 +14,55 @@ angular.module('app').controller('meu.controller',[
 
 angular
     .module('exams', [])
-    .controller('listExamsController', listExamsController);
+    .controller('examsController', examsController);
 
-listExamsController.$inject = ['$http'];
-function listExamsController($http) {
+examsController.$inject = ['$http', '$scope'];
+function examsController($http, $scope) {
 	var self = this;
 	$http.get('http://localhost:8080/exames').then(function(response) {
 		console.log(response)
 		self.exames = response.data;
-
 	});
+
+	$scope.delete = function(exame) {
+		console.log(exame.nome)
+		$http.delete('http://localhost:8080/exames/' + exame.id).then(function(response) {
+			console.log(response)
+		})
+	}
+
+	$scope.add = function(exame) {
+		console.log(exame.nome)
+		$http.post('http://localhost:8080/exames/', exame).then(function(response) {
+			console.log(response)
+		})
+	}
+
 }
-//CHECK IF TRUE
-angular
-	.module('exams')
-	.controller('delExamController', function modify($http, $scope){
-		var id = $scope.exame.id;
-		$scope.delete = function() {
-			console.log(id)
-			$http.delete('http://localhost:8080/exames/' + id).then(function(response) {
-				console.log(response)
-				//self.pacientes = response.data;
-
-			});
-		};
-	});
-angular
-	.module('exams')
-	.controller('addExamController', function add($http, $scope){
-
-		$scope.add = function() {
-			$http.post('http://localhost:8080/exames/', $scope.exame).then(function(response) {
-				console.log(response)
-				//self.pacientes = response.data;
-
-			});
-		};
-	});
 
 angular
   .module('pacients', [])
-  .controller('listPacientsController', function listPacientsController($http, $scope) {
+  .controller('pacientsController', function controller($http, $scope) {
 		var self = this;
 		$http.get('http://localhost:8080/pacientes').then(function(response) {
 			console.log(response)
 			self.pacientes = response.data;
 
 		});
-	});
-
-	angular
-	  .module('pacients', [])
-	  .controller('listPacientsController', function form($http, $scope) {
-			var self = this;
-			$http.get('http://localhost:8080/pacientes').then(function(response) {
+		$scope.add = function(paciente) {
+			console.log(paciente.nome)
+			$http.post('http://localhost:8080/pacientes/', paciente).then(function(response) {
 				console.log(response)
-				self.pacientes = response.data;
-
 			});
-		});
+		};
 
-//TODO
-
-angular
-	.module('pacients')
-	.controller('delPacientController', function del($http, $scope){
-		//var id = $scope.paciente.id;
-		$scope.delete = function() {
+		$scope.delete = function(id) {
+			//$scope.paciente = null;
+			//var id =
 			console.log(id)
 			$http.delete('http://localhost:8080/pacientes/' + id).then(function(response) {
 				console.log(response)
 			})
-			delete $scope.paciente
+			//delete $scope.paciente
 		};
-		// $scope.show = function() {
-		//
-		// }
 	});
-
-	angular
-		.module('pacients')
-		.controller('addPacientController', function add($http, $scope){
-
-			$scope.add = function() {
-				$http.post('http://localhost:8080/pacientes/', $scope.paciente).then(function(response) {
-					console.log(response)
-					//self.pacientes = response.data;
-
-				});
-			};
-		});

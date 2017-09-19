@@ -11,10 +11,10 @@
 		<button ng-click="showPacientes = !showPacientes; showExames = false">Pacientes</button>
 		<button ng-click="showExames  = !showExames; showPacientes = false">Exames</button>
 		<hr />
-		<div ng-show="showPacientes">
+		<div ng-show="showPacientes" ng-controller="pacientsController as form">
 
 			<button = ng-click="showAlterPacient = !showAlterPacient; text='Adicionar'">Adicionar paciente</button>
-			<table ng-controller="listPacientsController as form">
+			<table>
 			<tr>
 				<th>Id</th>
 				<th>Nome</th>
@@ -22,15 +22,15 @@
 				<th>Sexo</th>
 			</tr>
 				<tr ng-repeat="paciente in form.pacientes">
+					<td>{{paciente.id}}</td>
 					<td>{{paciente.nome}}</td>
 					<td>{{paciente.idade}}</td>
 					<td>{{paciente.sexo}}</td>
-					<td>{{paciente.id}}</td>
-					<td><button ng-controller="delPacientController" ng-click="delete()">Remover</button></td>
+					<td><button pId = paciente.id ng-click="delete(paciente.id)">Remover</button></td>
 					<td><button ng-click="showAlterPacient = !showAlterPacient">Alterar</button></td>
 				</tr>
 			</table>
-			<div ng-show="showAlterPacient" ng-controller="addPacientController">
+			<div ng-show="showAlterPacient">
 				<hr />
 				<form >
 					Nome do paciente: <br />
@@ -42,13 +42,13 @@
 					<input type="radio" name="sexo" value="masculino" ng-model="paciente.sexo"> Masculino<br>
 					<input type="radio" name="sexo" value="feminino" ng-model="paciente.sexo"> Feminino<br>
 
-					<input type="submit" value="{{text}}" ng-click="add()">
+					<input type="submit" value="{{text}}" ng-click="add(paciente)">
 				</form>
 			</div>
 		</div>
-		<div ng-show="showExames">
+		<div ng-show="showExames" ng-controller="examsController as form">
 			<button ng-click="showAlterExames = !showAlterExames; text='Adicionar'">Novo Exame</button>
-			<table ng-controller = 'listExamsController as form'>
+			<table>
 			<tr>
 				<th>Id</th>
 				<th>Nome</th>
@@ -62,14 +62,12 @@
 					<td>{{exame.descricao}}</td>
 					<td>{{exame.data}}</td>
 					<td>{{exame.paciente.nome}}</td>
-					<!-- TODO:  -->
-					      <td><button ng-controller ="delExamController" ng-click="delete()">Remover</button></td>
-								<td><button>Alterar</button></td>
+		      <td><button ng-click="delete(exame)">Remover</button></td>
+					<td><button>Alterar</button></td>
 				</tr>
 			</table>
-			<div ng-show="showAlterExames" ng-controller="addExamController">
+			<div ng-show="showAlterExames">
 				<hr />
-					<!-- <input type="hidden" name="id" ng-model /> -->
 					Nome do exame:
 					<br /> <input type="text" name="nome" ng-model="exame.nome">
 
@@ -77,13 +75,13 @@
 					<textarea name="descricao" rows="5" cols="80" ng-model="exame.descricao"></textarea>
 
 					<br />Paciente<br />
-					<select ng-controller="listPacientsController as form">
+					<select ng-controller="pacientsController as form">
 					  <option ng-repeat="paciente in form.pacientes" value="{{paciente}}" ng-model="exame.paciente">{{paciente.nome}}</option>
 					</select>
 
 					<br />Data<br />
 					<input type="date" name="data" ng-model="exame.data">
-					<button ng-click="add()">{{text}}</button>
+					<button ng-click="add(exame)">{{text}}</button>
 
 			</div>
 		</div>
